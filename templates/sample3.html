@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #444;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 15px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #218838;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.delete-btn {
+    color: #fff;
+    background: #dc3545;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    background: #c82333;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome {{ name }}</h1>
+        <h1>To-Do List</h1>
+        
+        <form action="/addtask" method="POST">
+            <input type="text" name="task" placeholder="Add a new task" required>
+            <input type="hidden" name="username" value="{{name}}">
+            <button type="submit">Add</button>
+        </form>
+            {% for task in tasks %}
+                <li>
+                    <form action="/updatedata" method="POST" style="display: inline;">
+                        <input type="text" name="updated_id" value="{{task['id']}}">
+                        <input type="text" name="updated_task" value="{{task['content']}}">
+                        <input type="hidden" name="username" value="{{name}}">
+                        <button type="submit">Update</button>
+                    </form>
+                    <form action="/deletedata" method="POST" style="display: inline;">
+                        <input type="hidden" name="delete_data_id" value="{{task['id']}}">
+                        <input type="hidden" name="username" value="{{name}}">
+                        <button style="color:white;background-color: #c82333;" type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
